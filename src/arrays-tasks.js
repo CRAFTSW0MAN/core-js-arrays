@@ -276,8 +276,16 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return [0];
+  }
+  if (n > 2) {
+    return new Array(size).fill(createNDimensionalArray(n - 1, size));
+  }
+  return Array.from({ length: size }, () =>
+    Array.from({ length: size }, () => 0)
+  );
 }
 
 /**
@@ -379,8 +387,8 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  return indices.reduce((acc, elem) => acc[elem], arr);
 }
 
 /**
@@ -418,8 +426,16 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const arr = Array.from({ length: n }, () => Array.from({ length: n }));
+  return arr.map((elem, index) =>
+    elem.map((elem2, index2) => {
+      if (index === index2) {
+        return 1;
+      }
+      return 0;
+    })
+  );
 }
 
 /**

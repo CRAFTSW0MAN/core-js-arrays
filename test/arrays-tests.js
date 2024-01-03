@@ -854,10 +854,10 @@ describe('arrays-tasks', () => {
           arr: [],
           expected: [],
         },
-        // {
-        //   arr: [1],
-        //   expected: [1],
-        // },
+        {
+          arr: [1],
+          expected: [1],
+        },
         {
           arr: ['a', 'b'],
           expected: ['a', 'b', 'b'],
