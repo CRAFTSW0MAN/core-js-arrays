@@ -344,8 +344,11 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  const length = Math.ceil(arr.length / chunkSize);
+  return Array.from({ length }, (elem, index) =>
+    arr.slice(index * chunkSize, index * chunkSize + chunkSize)
+  );
 }
 
 /**
@@ -360,8 +363,8 @@ function createChunks(/* arr, chunkSize */) {
  *    generateOdds(2) => [ 1, 3 ]
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  return Array.from({ length: len }, (elem, index) => index * 2 + 1);
 }
 
 /**
@@ -392,8 +395,9 @@ function getElementByIndices(/* arr, indices */) {
  *  getFalsyValuesCount([ -1, 'false', null, 0 ]) => 2
  *  getFalsyValuesCount([ null, undefined, NaN, false, 0, '' ]) => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  const arr2 = arr.filter((elem) => !elem);
+  return arr2.length;
 }
 
 /**
@@ -492,8 +496,31 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let arr = [];
+  let result = 0;
+  nums.map((elem, index) => {
+    if (index !== 0 && index !== nums.length - 1) {
+      if (elem < nums[index + 1] && elem > nums[index - 1]) {
+        arr.push(elem);
+        result += 1;
+      } else if (elem < nums[index + 1] && elem <= nums[index - 1]) {
+        result = Math.max(result, arr.length);
+        arr = [elem];
+      }
+    } else if (
+      index === 0 ||
+      (index === nums.length - 1 && elem > nums[index - 1])
+    ) {
+      arr.push(elem);
+      result += 1;
+    } else if (index === nums.length - 1 && elem <= nums[index - 1]) {
+      result = Math.max(result, arr.length);
+    }
+
+    return '';
+  });
+  return result;
 }
 
 /**
@@ -527,8 +554,14 @@ function propagateItemsByPositionIndex(/* arr */) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const arr2 = [];
+  if (n > 0) {
+    arr2.push(...arr.slice(n + 1), ...arr.slice(0, n + 1));
+  } else {
+    arr2.push(...arr.slice(-n, arr.length), ...arr.slice(0, -n));
+  }
+  return arr2;
 }
 
 /**
@@ -544,8 +577,23 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const arr2 = {
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+
+  const endArr = arr.sort((a, b) => arr2[a] - arr2[b]);
+
+  return endArr;
 }
 
 /**
@@ -567,8 +615,22 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const head = Math.ceil(arr.length / 2);
+  const end = Math.floor(arr.length / 2);
+  const arr2 = [];
+  if (arr.length > 1 && arr.length % 2 !== 0) {
+    arr2.push(
+      ...arr.slice(head),
+      ...arr.slice(end, head),
+      ...arr.slice(0, head - 1)
+    );
+  } else if (arr.length > 1 && arr.length % 2 === 0) {
+    arr2.push(...arr.slice(head), ...arr.slice(0, head));
+  } else {
+    arr2.push(...arr);
+  }
+  return arr2;
 }
 
 module.exports = {
